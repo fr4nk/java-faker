@@ -6,6 +6,7 @@ import org.junit.Test;
 import static com.github.javafaker.matchers.MatchesRegularExpression.matchesRegularExpression;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
@@ -40,6 +41,24 @@ public class NameTest  extends AbstractFakerTest{
     @Test
     public void testFirstName() {
         assertThat(faker.name().firstName(), matchesRegularExpression("\\w+"));
+    }
+
+    @Test
+    public void testGenderedFirstName() {
+        final Name name = spy(new Name(faker));
+        doReturn("Feline").when(name).femaleFirstName();
+        doReturn("Max").when(name).maleFirstName();
+        doReturn(name).when(faker).name();
+        assertEquals("Feline", faker.name().firstName("F"));
+        assertEquals("Feline", faker.name().firstName("FEMALE"));
+        assertEquals("Feline", faker.name().firstName("Female"));
+        assertEquals("Feline", faker.name().firstName("female"));
+        assertEquals("Feline", faker.name().firstName("FeMaLe"));
+        assertEquals("Max", faker.name().firstName("male"));
+        assertEquals("Max", faker.name().firstName("m"));
+        assertEquals("Max", faker.name().firstName("MALE"));
+        assertEquals("Max", faker.name().firstName("M"));
+        assertEquals("Max", faker.name().firstName("MaLe"));
     }
 
     @Test
