@@ -62,6 +62,25 @@ public class Name {
         return faker.fakeValuesService().resolve("name.first_name", this, faker);
     }
 
+    
+    /**
+     * <p>Returns a random 'given' name such as Aaliyah, Aaron, Abagail or Abbey for a gender m/f or male/female
+     * (case insensitive).</p>
+     * @return a 'given' name such as Aaliyah, Aaron, Abagail or Abbey
+     */
+    public String firstName(String gender) {
+        String result = null;
+        if (gender != null) {
+
+            if(gender.matches("^[mM]([aA][lL][eE])?$") ) {
+                result = faker.fakeValuesService().resolve("name.male_first_name", this, faker);
+            } else if(gender.matches("^[fF]([eE][mM][aA][lL][eE])?$") ) {
+                result = faker.fakeValuesService().resolve("name.female_first_name", this, faker);
+            }
+        } 
+        return result != null ? result : faker.fakeValuesService().resolve("name.first_name", this, faker);
+    }
+
     /**
      * <p>Returns a random last name such as Smith, Jones or Baldwin</p>
      * @return a random last name such as Smith, Jones or Baldwin
